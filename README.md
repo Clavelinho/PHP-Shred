@@ -6,18 +6,25 @@ Safely deletes files v0.5b
 PHP 5.3
 
 ## Installation
-Composer
 
-To install run `composer require clavelinho/shred`
+composer.json
+
+`{
+	"require": {
+		"clavelinho/shred": "dev-master"
+	}
+}`
+
+Run `composer install`
 
 ## Usage
 ```php
-// load composer
-require_once 'vendor/autoload.php';
+// load autoload composer
+require 'vendor/autoload.php';
 
 use Shred\Shred;
 
-$shred = new Shred($n); // $n <= Number of iterations. Default 3.
+$shred = new Shred\Shred($n); // $n <= Number of iterations. Default 3.
 
 $shred->remove('folder/file.txt'); // <= Overwrite and Remove.
 $shred->remove('folder/file.txt', false); // <= Only overwrite.

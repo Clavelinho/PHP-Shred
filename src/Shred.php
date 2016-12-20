@@ -59,7 +59,7 @@ class Shred {
  	}
 
  	/**
- 	 * Determines if the file exists & is read/write. If not try to change it.
+ 	 * Determines if the file exists & is read/write.
  	 *
  	 * @param  string
  	 * @return bool
@@ -111,7 +111,7 @@ class Shred {
  	{
  		$blocks = (int)(($line_length)/3);
 
- 		if ($blocks > 1) {
+ 		if (1 < $blocks) {
  			$s = '';
  			$rest = $line_length - ($blocks*3);
 
