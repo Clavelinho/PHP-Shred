@@ -21,6 +21,13 @@ $shred = new Shred($n); // $n <= Number of iterations. Default 3.
 
 $shred->remove('folder/file.txt'); // <= Overwrite and Remove.
 $shred->remove('folder/file.txt', false); // <= Only overwrite.
+
+// Check if remove
+if ($shred->remove('folder/file.txt')) {
+	// The file is truncated & removed.
+} else {
+	// Impossible to overwrite or remove the file. See filepath & file permissions.
+}
 ```
 
 Shred overwrite 'n' times the file for make more difficult to recovery (Imposible is nothing!). Obviously inspired in shred for linux.

@@ -22,7 +22,7 @@ class Shred {
  	 */
  	public function __construct($iterations=3)
  	{
- 		$this->iterations = $iterations;
+ 		$this->iterations = (int)$iterations;
  	}
 
  	/**
@@ -44,12 +44,14 @@ class Shred {
 	 			$this->overwriteFile($read, $write);
 
 	 			if ($remove) {
+	 				$write->ftruncate(0);
 	 				$unlink = unlink($filepath);
 	 			}
 
 	 			return $unlink;
 	 		}
 
+	 		echo 'false';
 	 		return false;
 
 	 	} catch (\Exception $e) {
@@ -60,17 +62,13 @@ class Shred {
  	/**
  	 * Determines if the file exists & is read/write. If not try to change it.
  	 *
- 	 * @param  string $filepath
+ 	 * @param  string
  	 * @return bool
  	 */
  	public function fileWritable($filepath)
  	{
  		if (is_readable($filepath) && is_writable($filepath)) {
  			return true;
- 		} else {
- 			if (file_exists($filepath)) {
- 				return chmod($filepath, 0666);
- 			}
  		}
 
  		return false;
@@ -82,26 +80,26 @@ class Shred {
  	 * @param class
  	 * @param class
  	 */
- 	public function overwriteFile($file, $write)
+ 	public function overwriteFile($read, $write)
  	{
  		$iterations = $this->iterations;
- 		$tLine2     = 0;
 
- 		while (!$file->eof()) {
- 			$tLine = $file->ftell();
- 			$line  = $file->fgets();
- 			$lLine = strlen($line)-1;
+ 		while (!$read->eof()) {
+ 			$line_tell   = $read->ftell();
+ 			$line        = $read->fgets();
+ 			$line_length = strlen($line);
 
- 			if (0 > $lLine) {
+ 			if (0 === $line_length) {
  				continue;
  			}
 
-
  			for ($n=0; $n<$iterations; $n++) {
- 				$write->fseek($tLine);
- 				$write->fwrite($this->stringRand($lLine));
+ 				$write->fseek($line_tell);
+ 				$write->fwrite($this->stringRand($line_length));
  			}
  		}
+
+ 		return true;
  	}
 
  	/**
@@ -110,13 +108,13 @@ class Shred {
  	 * @param  integer
  	 * @return string
  	 */
- 	public function stringRand($lLine)
+ 	public function stringRand($line_length)
  	{
- 		$blocks = (int)(($lLine)/3);
+ 		$blocks = (int)(($line_length)/3);
 
  		if ($blocks > 1) {
  			$s = '';
- 			$rest = $lLine - ($blocks*3);
+ 			$rest = $line_length - ($blocks*3);
 
 			for ($n=0; $n<3; $n++) {
 				$s .= str_repeat(chr(mt_rand(0, 255)), $blocks);
@@ -126,7 +124,7 @@ class Shred {
 				$s .= str_repeat(chr(mt_rand(0,255)), $rest);
 			}
  		} else {
- 			$s = str_repeat(chr(mt_rand(0,255)), ($lLine));
+ 			$s = str_repeat(chr(mt_rand(0,255)), ($line_length));
  		}
 
  		return $s;
