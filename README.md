@@ -9,11 +9,13 @@ PHP 5.3
 
 composer.json
 
-`{
+```javascript
+{
 	"require": {
 		"clavelinho/shred": "dev-master"
 	}
-}`
+}
+```
 
 Run `composer install`
 
@@ -22,9 +24,7 @@ Run `composer install`
 // load autoload composer
 require 'vendor/autoload.php';
 
-use Shred\Shred;
-
-$shred = new Shred\Shred($n); // $n <= Number of iterations. Default 3.
+$shred = new Shred\Shred($n); // $n (optional) <= Number of iterations. Default 3.
 
 $shred->remove('folder/file.txt'); // <= Overwrite and Remove.
 $shred->remove('folder/file.txt', false); // <= Only overwrite.
