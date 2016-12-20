@@ -4,14 +4,14 @@ namespace Shred;
 
 /**
  * Shred - v0.5
- * @author Dani C. - dani.c.@alguncorreo.com -
+ * @author Dani C. - dani.co@mail.com -
  *
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  */
 class Shred {
 
-	/* Number of iterations. Default = 3. */
+	/* Number of iterations. Default = 3 */
  	private $iterations;
 
 
@@ -26,7 +26,7 @@ class Shred {
  	}
 
  	/**
- 	 * Safely Remove and/or Overwrite file
+ 	 * Overwrite file and/or Safely Remove
  	 *
  	 * @param  string
  	 * @param  bool
@@ -51,11 +51,10 @@ class Shred {
 	 			return $unlink;
 	 		}
 
-	 		echo 'false';
 	 		return false;
 
 	 	} catch (\Exception $e) {
-	 		throw new \Exception($e->getCode().' :: '.$e->getMessage().' :: Line ('.$e->getLine().')');
+	 		throw new \Exception($e->getCode().' :: '.$e->getMessage().' ::');
 	 	}
  	}
 
@@ -99,7 +98,7 @@ class Shred {
  			}
  		}
 
- 		return true;
+ 		return;
  	}
 
  	/**
@@ -124,7 +123,7 @@ class Shred {
 				$s .= str_repeat(chr(mt_rand(0,255)), $rest);
 			}
  		} else {
- 			$s = str_repeat(chr(mt_rand(0,255)), ($line_length));
+ 			$s = str_repeat(chr(mt_rand(0,255)), $line_length);
  		}
 
  		return $s;
